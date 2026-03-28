@@ -3,7 +3,6 @@
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="800"><br>
   <em>
-    Figure 1: Target accuracy $\epsilon = 10^{-4}$
-    <img src="https://latex.codecogs.com/png.image?\epsilon=10^{-4}" alt="\epsilon=10^{-4}">
+    <em>Figure 1: Target accuracy ε = 10⁻⁴</em>
   </em>
 </p>
