@@ -1,5 +1,7 @@
 # Adaptive mixed-precision hybrid hierarchical matrices
 
+Hybrid hierarchical matrices are based on a hybrid admissibility condition.
+
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
   <em>
