@@ -7,6 +7,8 @@
   </em>
 </p>
 
+<br>
+
 <p align="center">
   <img src="Hmat/Images/hmat2.jpg" alt="H-matrix example" width="1000"><br>
   <em>
