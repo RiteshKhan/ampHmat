@@ -1,1 +1,1 @@
-## Adaptive mixed-precision hybrid hierarchical matrices
+# Adaptive mixed-precision hybrid hierarchical matrices
