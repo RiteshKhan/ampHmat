@@ -12,12 +12,12 @@ classdef Hmat_node < handle
         isVisited_nbd     % Logical array
         isLRuseful        % Check if LR useful or not
         
-        center        % coordinates (1 x d_dim vector)
+        center            % coordinates (1 x d_dim vector)
         
-        charges       % column vector
-        potential     % column vector
+        charges           % column vector
+        potential         % column vector
         
-        chargeLocations % indices of particles belonging to this box
+        chargeLocations   % indices of particles belonging to this box
 
         sq_norm_block_mat
         
@@ -41,10 +41,7 @@ classdef Hmat_node < handle
             obj.interactionList = int32([]);
             obj.neighborNumbers = int32([]);
             
-            % obj.isVertex      = sparse([], [], [], 100, 1);
             obj.isVisited      = sparse([], [], [], 100000, 1);
-
-            obj.isLRuseful     = sparse([], [], [], 100000, 1);
             
             obj.center = zeros(1, d_dim);
             
