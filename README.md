@@ -2,5 +2,5 @@
 
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="Example" width="800"><br>
-  <em>Figure 1: Example visualization</em>
+  <em>Figure 1: Target accuracy $\epsilon = 10^{-4}$</em>
 </p>
