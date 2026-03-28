@@ -10,6 +10,6 @@
 <p align="center">
   <img src="Hmat/Images/hmat2.jpg" alt="H-matrix example" width="800"><br>
   <em>
-    <em>Figure 2: Target accuracy ε = 10⁻2</em>
+    <em>Figure 2: Target accuracy ε = 10⁻²</em>
   </em>
 </p>
