@@ -28,6 +28,37 @@ cd ampHmat/Hmat
 
 ## One example
 
+### Input
+```
+d_dim = 2;
+
+d_dimRootN = [80];
+
+nParticlesInLeafAlong1D = 8;
+
+LR_epsilon = [1e-2];
+
+kernel_choice = 2;
+
+hodlr_level = 1;
+
+%% Working precision
+u = precision("d");      % Set working precision
+u_mvp = precision("d");  % Set working precision
+
+%% %%%%%%%%%%%%%% Mixed precision %%%%%%%%%%%%%%%%%%%%%%
+u1 = precision("d");
+u2 = precision("s");
+u3 = precision("h");
+u4 = precision("b");
+u5 = precision("q43");
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+eta = sqrt(d_dim)/2.0;   % eta=1.0 --> HODLRdD (weak), sqrt(d_dim)/2.0 (strong) --> H, 2 HODLR  
+particle_location_choice = "uniform";
+```
+
 ### Output
 If everything is fine, you will get the following output.
 ```
