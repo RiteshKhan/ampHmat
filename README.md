@@ -26,6 +26,41 @@ cd ampHmat/Hmat
 10) The code can be run in mixed precision as well as uniform precision settings (more info can be found in the main_file.m).
 
 
+## One example
+
+```
+~~~~~~~*************** AMP HMAT ****************~~~~~~~
+Number of particles: 6400
+  
+Parameters:
+HODLR level-> 1	  LR Tol.-> 1.000000e-02	  Dim-> 2	  Min particle at leaf-> 64	  Kernel choice-> 3	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 7.071068e-01
+Particle location-> uniform
+=============================
+Relative error in MVP:    0.0017
+
+=============================
+Level of the tree: 4
+=============================
+Low-rank Storage: 2.071200e-03
+=============================
+Dense matrices Storage: 1.280000e-03
+=============================
+Total Storage: 3.351200e-03
+=============================
+Compression ratio (with dense fp64): 9.777990e+01
+=============================
+Relative error in Matrix construction:
+    0.0086
+
+
+=============================
+Relative backward error in MVP:
+   9.1630e-04
+
+*************** == END OF RESULT == ****************
+```
+
+
 ## Visualization
 The following figures illustrate adaptive mixed precision hybrid hierarchical matrix representations.
 
