@@ -23,7 +23,7 @@ cd ampHmat/Hmat
 7) is_sym = The kernel matrix is symmetric or not (true/false).
 8) u = Working precision for mixed precision H-matrix representation storage. 
 9) u_mvp = Working precision for MVP with the resulting representation.
-10) The code can be run in mixed precision as well as uniform precision settings.
+10) The code can be run in mixed precision as well as uniform precision settings (more info can be found in the main_file.m).
 
 
 
