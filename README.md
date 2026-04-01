@@ -53,7 +53,7 @@ u5 = precision("q43");
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-eta = sqrt(d_dim)/2.0;   % eta=1.0 --> HODLRdD (weak), sqrt(d_dim)/2.0 (strong) --> H, 2 HODLR  
+eta = sqrt(d_dim)/2.0;   
 particle_location_choice = "uniform";
 ```
 
