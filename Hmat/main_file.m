@@ -33,8 +33,8 @@ is_sym = true;  % The matrix is symmetric or not
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Working precision
-u = precision("d");      % Set working precision
-u_mvp = precision("d");  % Set working precision
+u = precision("d");      % Set working precision for mixed precision H-matrix representation storage
+u_mvp = precision("d");  % Set working precision for MVP with the resulting representation
 
 %% %%%%%%%%%%%%%% Mixed precision %%%%%%%%%%%%%%%%%%%%%%
 u1 = precision("d");
