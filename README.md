@@ -1,6 +1,6 @@
 # Adaptive mixed-precision hybrid hierarchical matrices
 
-Hybrid hierarchical matrices are based on a hybrid admissibility condition.
+Hybrid hierarchical matrices are based on a hybrid admissibility condition: the standard admissibility condition is used at the coarser level of the hierarchy and the weak admissibility condition is used at the finer level of the hierarchy.
 
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
