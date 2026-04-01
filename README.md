@@ -5,7 +5,7 @@ Hybrid hierarchical matrices are based on a hybrid admissibility condition: the 
 ## Edit the following parameters based on your desired $\mathcal{H}$-matrix and kernel function.    
 1) d_dim = The dimension of the space. The tree will be generated accordingly. For example, if d_dim=3, the resulting tree will be an oct-tree.
 1) nParticlesInLeafAlong1D = The maximum number of particles along 1D at the leaf level. The maximum number of particles at the leaf level N_max = nParticlesInLeafAlong1D^d_dim (this decides the depth of the tree $L$).  
-3) LR_epsilon = Target accuracy in the low-rank compression.
+3) LR_epsilon (ε) = Target accuracy in the low-rank compression.
 4) kernel_choice = Choice of your desired kernel function (see kernel_menu.md file and select the number from there).
 5) hodlr_level = This decides the switching level $\ell$ (where the admissibility conditions will be switched) in our hybrid admissibility condition. For example, if hodlr_level = 1, then switching level $\ell = L-1$.
 6) eta = The parameter used in the standard admissibility condition. A different choice of eta will generate a different $\mathcal{H}$-matrix.
