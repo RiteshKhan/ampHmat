@@ -29,6 +29,7 @@ cd ampHmat/Hmat
 ## One example
 
 ### Output
+If everything is fine, you will get the following output.
 ```
 ~~~~~~~*************** AMP HMAT ****************~~~~~~~
 Number of particles: 6400
