@@ -114,7 +114,7 @@ Thus, we can see that almost all the blocks can be stored in a precision lower t
 This work is supported by the European Union (ERC, inEXASCALE, 101075632) and the Charles University Research Centre program No. UNCE/24/SCI/005. 
 
 ## References
-[1] C. Erin, X. Chen and X. Liu, Mixed precision HODLR matrices, SIAM J. Sci. Comput., (2024), pp. A1408-A1435, https://doi.org/10.48550/arXiv.2407.21637.
+[1] C. Erin, X. Chen and X. Liu, Mixed precision HODLR matrices, SIAM J. Sci. Comput., (2024), pp. A1408-A1435, https://doi.org/10.1137/24M1683925.
 
 [2] S. B¨orm, L. Grasedyck, and W. Hackbusch, Introduction to hierarchical matrices with applications, Eng. Anal. Bound. Elem., 27 (2003), pp. 405–422, https://doi.org/10.1016/S0955-7997(02)00152-2.
 
