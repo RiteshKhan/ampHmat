@@ -2,7 +2,7 @@
 
 Hybrid hierarchical matrices are based on a *hybrid* admissibility condition: the standard admissibility condition is used at the coarser level of the hierarchy, and the weak admissibility condition is used at the finer level of the hierarchy.
 
-## Edit the following parameters:
+## Edit the following parameters in the main file
 1) d_dim = The dimension of the space. The tree will be generated accordingly. For example, if d_dim=3, the resulting tree will be an oct-tree.
 1) nParticlesInLeafAlong1D = The maximum number of particles along 1D at the leaf level. The maximum number of particles at the leaf level N_max = nParticlesInLeafAlong1D^d_dim (this decides the depth of the tree $L$).  
 3) LR_epsilon (ε) = Target accuracy in the low-rank compression.
