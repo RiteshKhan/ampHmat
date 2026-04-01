@@ -1,6 +1,6 @@
 # Adaptive mixed-precision hybrid hierarchical matrices
 
-Hybrid hierarchical matrices are based on a hybrid admissibility condition: the standard admissibility condition is used at the coarser level of the hierarchy, and the weak admissibility condition is used at the finer level of the hierarchy.
+Hybrid hierarchical matrices are based on a *hybrid* admissibility condition: the standard admissibility condition is used at the coarser level of the hierarchy, and the weak admissibility condition is used at the finer level of the hierarchy.
 
 ## Edit the following parameters based on your desired $\mathcal{H}$-matrix and kernel function.    
 1) d_dim = The dimension of the space. The tree will be generated accordingly. For example, if d_dim=3, the resulting tree will be an oct-tree.
