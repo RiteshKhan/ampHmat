@@ -28,6 +28,7 @@ cd ampHmat/Hmat
 
 ## One example
 
+### Output
 ```
 ~~~~~~~*************** AMP HMAT ****************~~~~~~~
 Number of particles: 6400
