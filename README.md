@@ -17,3 +17,6 @@ Hybrid hierarchical matrices are based on a hybrid admissibility condition.
     <em>Figure 2: Target accuracy ε = 10⁻²</em>
   </em>
 </p>
+
+# Acknowledgement 
+This work is supported by the European Union (ERC, inEXASCALE, 101075632) and the Charles University Research Centre program No. UNCE/24/SCI/005. 
