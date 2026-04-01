@@ -94,7 +94,7 @@ Relative backward error in MVP:
 
 
 ## Visualization
-The following figures illustrate adaptive mixed precision hybrid hierarchical matrix representations.
+The following figures illustrate adaptive mixed precision hybrid hierarchical matrix representations $(L=4)$.
 
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
