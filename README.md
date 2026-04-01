@@ -12,6 +12,10 @@ Step 2.
 ```
 cd ampHmat/Hmat
 ```
+Step 3.
+```
+main_file.m
+```
 
 ## Description of the parameters in the main_file.m
 1) d_dim = The dimension of the space. The balanced 2^d_dim-tree will be generated accordingly. For example, if d_dim=3, the resulting tree will be an oct-tree.
