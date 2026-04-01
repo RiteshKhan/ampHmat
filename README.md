@@ -33,29 +33,29 @@ cd ampHmat/Hmat
 Number of particles: 6400
   
 Parameters:
-HODLR level-> 1	  LR Tol.-> 1.000000e-02	  Dim-> 2	  Min particle at leaf-> 64	  Kernel choice-> 3	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 7.071068e-01
+HODLR level-> 1	  LR Tol.-> 1.000000e-02	  Dim-> 2	  Min particle at leaf-> 64	  Kernel choice-> 2	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 7.071068e-01
 Particle location-> uniform
 =============================
-Relative error in MVP:    0.0017
+Relative error in MVP:    0.0040
 
 =============================
 Level of the tree: 4
 =============================
-Low-rank Storage: 2.071200e-03
+Low-rank Storage: 1.630400e-03
 =============================
 Dense matrices Storage: 1.280000e-03
 =============================
-Total Storage: 3.351200e-03
+Total Storage: 2.910400e-03
 =============================
-Compression ratio (with dense fp64): 9.777990e+01
+Compression ratio (with dense fp64): 1.125893e+02
 =============================
 Relative error in Matrix construction:
-    0.0086
+    0.0101
 
 
 =============================
 Relative backward error in MVP:
-   9.1630e-04
+    0.0010
 
 *************** == END OF RESULT == ****************
 ```
