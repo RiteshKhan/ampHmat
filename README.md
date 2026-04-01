@@ -82,12 +82,9 @@ Compression ratio (with dense fp64): 1.125893e+02
 =============================
 Relative error in Matrix construction:
     0.0101
-
-
 =============================
 Relative backward error in MVP:
     0.0010
-
 *************** == END OF RESULT == ****************
 ```
 
