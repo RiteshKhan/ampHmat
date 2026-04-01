@@ -29,7 +29,6 @@ cd ampHmat/Hmat
 ## One example
 Set the input parameters as follows in the main_file.m
 
-### Input
 ```
 d_dim = 2;
 d_dimRootN = [80];
