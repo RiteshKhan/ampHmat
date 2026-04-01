@@ -108,7 +108,7 @@ The following figures illustrate adaptive mixed precision hybrid hierarchical ma
   </em>
 </p>
 
-Thus, we can see that almost all the blocks can be stored in a precision lower than the working precision. Notably, this does not come at the expense of accuracy.
+We can see that almost all the blocks can be stored in a precision lower than the working precision. Notably, this does not come at the expense of accuracy.
 
 ## Acknowledgement 
 This work is supported by the European Union (ERC, inEXASCALE, 101075632) and the Charles University Research Centre program No. UNCE/24/SCI/005. 
