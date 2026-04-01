@@ -31,16 +31,14 @@ cd ampHmat/Hmat
 ### Input
 ```
 d_dim = 2;
-
 d_dimRootN = [80];
-
 nParticlesInLeafAlong1D = 8;
-
 LR_epsilon = [1e-2];
-
 kernel_choice = 2;
-
 hodlr_level = 1;
+eta = sqrt(d_dim)/2.0;  
+particle_location_choice = "uniform";
+is_sym = true;
 
 %% Working precision
 u = precision("d");      % Set working precision
