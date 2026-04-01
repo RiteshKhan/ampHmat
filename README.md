@@ -7,7 +7,8 @@ Hybrid hierarchical matrices are based on a hybrid admissibility condition: the 
 1) Nmax = The maximum number of particles at the leaf level (this decides the depth of the tree $L$).  
 3) LR_epsilon = Prescribed accuracy in low-rank compression.
 4) kernel_choice = Choice of your desired kernel function (see kernel_menu.md file and select the number from there).
-5) hodlr_level = This decides the switching level (where the admissibility conditions will be switched). For example, if hodlr_level = 1, then switching level $\ell = L-1$.
+5) hodlr_level = This decides the switching level $\ell$ (where the admissibility conditions will be switched). For example, if hodlr_level = 1, then switching level $\ell = L-1$.
+6) eta = The parameter used in the standard admissibility condition. 
 
 
 ## Please follow these simple steps to run the code.
