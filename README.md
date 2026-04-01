@@ -27,7 +27,7 @@ cd ampHmat/Hmat
 
 
 ## Visualization
-The following figures illustrate the adaptive mixed-precision hybrid hierarchical matrix representation for different ε.
+The following figures illustrate the adaptive mixed-precision hybrid hierarchical matrix representations for different ε.
 
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
