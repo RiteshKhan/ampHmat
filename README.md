@@ -57,7 +57,7 @@ eta = sqrt(d_dim)/2.0;
 particle_location_choice = "uniform";
 ```
 
-### Output
+
 If everything is fine, you will get the following output.
 ```
 ~~~~~~~*************** AMP HMAT ****************~~~~~~~
