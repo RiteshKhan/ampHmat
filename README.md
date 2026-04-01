@@ -26,7 +26,7 @@ cd ampHmat/Hmat
 10) The code can be run in mixed precision as well as uniform precision settings (more info can be found in the main_file.m).
 
 
-
+## Visualization
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
   <em>
