@@ -20,7 +20,7 @@ git clone https://github.com/riteshkhan/ampHmat.git
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
   <em>
-    <em>Figure 1: Target accuracy ε = 10⁻⁴</em>
+    <em>Figure 1: Colors indicate the precision used in each block for target accuracy ε = 10⁻⁴</em>
   </em>
 </p>
 
@@ -29,7 +29,7 @@ git clone https://github.com/riteshkhan/ampHmat.git
 <p align="center">
   <img src="Hmat/Images/hmat2.jpg" alt="H-matrix example" width="1000"><br>
   <em>
-    <em>Figure 2: Target accuracy ε = 10⁻²</em>
+    <em>Figure 2: Colors indicate the precision used in each block for target accuracy ε = 10⁻²</em>
   </em>
 </p>
 
