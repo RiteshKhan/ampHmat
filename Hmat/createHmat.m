@@ -1,4 +1,4 @@
-function createHmat(d_dim, eta, d_dimRootN, hodlr_level, nParticlesInLeafAlong1D, LR_epsilon, kernel_choice, particle_location_choice, is_sym, isNBDcompressed, u_chain, u)    
+function createHmat(d_dim, eta, d_dimRootN, hodlr_level, nParticlesInLeafAlong1D, LR_epsilon, kernel_choice, particle_location_choice, is_sym, isNBDcompressed, u_chain, u, u_mvp)    
     N = d_dimRootN^d_dim;
 
     nLevels = ceil(log(d_dimRootN/nParticlesInLeafAlong1D) / log(2));
@@ -8,7 +8,7 @@ function createHmat(d_dim, eta, d_dimRootN, hodlr_level, nParticlesInLeafAlong1D
     % Set a value, it will build entire matrix of size N_max X N_max.
     N_max = 10000;
     
-    H = HmatTree(d_dim, eta, N, N_max, nLevels, hodlr_level, nParticlesInLeafAlong1D, L, LR_epsilon, kernel_choice, is_sym, isNBDcompressed, u_chain, u);
+    H = HmatTree(d_dim, eta, N, N_max, nLevels, hodlr_level, nParticlesInLeafAlong1D, L, LR_epsilon, kernel_choice, is_sym, isNBDcompressed, u_chain, u, u_mvp);
     H.createTree();
     H.assign_Center_Locations();
     H.assign_Tree_Interactions();

@@ -37,7 +37,8 @@ classdef HmatTree < handle
         collective_charge  % Column vector of size N
 
         prec_settings
-        working_prec
+        working_prec       % Working precision for storing mixed precision representation
+        working_prec_mvp   % Working precision for MVP
 
         LR_storage
         Dense_storage
@@ -57,7 +58,7 @@ classdef HmatTree < handle
     end
 
     methods
-        function obj = HmatTree(d_dim, eta, N, N_max, nLevels, hodlr_levels, nParticlesInLeafAlong1D, L, LR_epsilon, kernel_choice, is_sym, isNBDcompressed, prec, u)
+        function obj = HmatTree(d_dim, eta, N, N_max, nLevels, hodlr_levels, nParticlesInLeafAlong1D, L, LR_epsilon, kernel_choice, is_sym, isNBDcompressed, prec, u, u_mvp)
             obj.d_dim = d_dim;
             obj.sqrt_d_dim = sqrt(d_dim);
             obj.eta = eta;
@@ -77,6 +78,7 @@ classdef HmatTree < handle
             obj.isNBDcompressed = isNBDcompressed;
 
             obj.working_prec = u;
+            obj.working_prec_mvp = u_mvp;
             obj.prec_settings = [prec_chain(u), prec];
             [obj.unitRoundOff, obj.sortIdx] = sort_by_u(obj, obj.prec_settings);
 
@@ -130,7 +132,7 @@ classdef HmatTree < handle
             % Set the root center once
             obj.tree{1}{1}.center = zeros(1, obj.d_dim);
 
-            % Precompute binary child offset patterns (±1 per dimension)
+            % Precompute binary child offset patterns (+-1 per dimension)
             % Rows correspond to children, columns to dimensions
             binMat = dec2bin(0:obj.pow2d-1, obj.d_dim) == '1';
             signMat = double(binMat) * 2 - 1;  % 1 for bit=1, -1 for bit=0
@@ -954,7 +956,7 @@ classdef HmatTree < handle
                                     continue
                                 end
 
-                                set_prec(obj.working_prec);
+                                set_prec(obj.working_prec_mvp);
                                 boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.U{ki}) * mchop(mchop(boxK.V{ki}) * mchop(boxKI.charges))));
 
                                 if(obj.N<=obj.N_max)
@@ -965,11 +967,12 @@ classdef HmatTree < handle
                                     continue
                                 end
 
-                                set_prec(obj.working_prec);
+                                set_prec(obj.working_prec_mvp);
                                 boxK.potential = mchop(boxK.potential + mchop(mchop(boxKI.V{k}') * mchop(mchop(boxKI.U{k}') * mchop(boxKI.charges))));
 
 
                                 if(obj.N<=obj.N_max)
+                                    set_prec(obj.working_prec);
                                     obj.Hmat(boxK.chargeLocations, boxKI.chargeLocations) = mchop(boxKI.V{k}' * boxKI.U{k}');
                                 end
                             end
@@ -978,10 +981,11 @@ classdef HmatTree < handle
                                 continue
                             end
 
-                            set_prec(obj.working_prec);
+                            set_prec(obj.working_prec_mvp);
                             boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.U{ki}) * mchop(mchop(boxK.V{ki}) * mchop(boxKI.charges))));
 
                             if(obj.N<=obj.N_max)
+                                set_prec(obj.working_prec);
                                 obj.Hmat(boxK.chargeLocations, boxKI.chargeLocations)  = mchop(boxK.U{ki} * boxK.V{ki});
                             end
                         end
@@ -1006,10 +1010,11 @@ classdef HmatTree < handle
                                 continue
                             end
 
-                            set_prec(obj.working_prec);
+                            set_prec(obj.working_prec_mvp);
                             boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.U{nn}) * mchop(mchop(boxK.V{nn}) * mchop(boxNN.charges))));
 
                             if(obj.N<=obj.N_max)
+                                set_prec(obj.working_prec);
                                 obj.Hmat(boxK.chargeLocations, boxNN.chargeLocations)  = mchop(boxK.U{nn} * boxK.V{nn});
                             end
                         else
@@ -1017,10 +1022,11 @@ classdef HmatTree < handle
                                 continue
                             end
 
-                            set_prec(obj.working_prec);
+                            set_prec(obj.working_prec_mvp);
                             boxK.potential = mchop(boxK.potential + mchop(mchop(boxNN.V{k}') * mchop(mchop(boxNN.U{k}') * mchop(boxNN.charges))));
 
                             if(obj.N<=obj.N_max)
+                                set_prec(obj.working_prec);
                                 obj.Hmat(boxK.chargeLocations, boxNN.chargeLocations) = mchop(boxNN.V{k}' * boxNN.U{k}');
                             end
                         end
@@ -1029,10 +1035,11 @@ classdef HmatTree < handle
                             continue
                         end
 
-                        set_prec(obj.working_prec);
+                        set_prec(obj.working_prec_mvp);
                         boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.U{nn}) * mchop(mchop(boxK.V{nn}) * mchop(boxNN.charges))));
 
                         if(obj.N<=obj.N_max)
+                            set_prec(obj.working_prec);
                             obj.Hmat(boxK.chargeLocations, boxNN.chargeLocations)  = mchop(boxK.U{nn} * boxK.V{nn});
                         end
                     end
@@ -1061,10 +1068,11 @@ classdef HmatTree < handle
                                         continue
                                     end
 
-                                    set_prec(obj.working_prec);
+                                    set_prec(obj.working_prec_mvp);
                                     boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.U{ki}) * mchop(mchop(boxK.V{ki}) * mchop(boxKI.charges))));
 
                                     if(obj.N<=obj.N_max)
+                                        set_prec(obj.working_prec);
                                         obj.Hmat(boxK.chargeLocations, boxKI.chargeLocations)  = mchop(boxK.U{ki} * boxK.V{ki});
                                     end
                                 else
@@ -1072,10 +1080,11 @@ classdef HmatTree < handle
                                         continue
                                     end
 
-                                    set_prec(obj.working_prec);
+                                    set_prec(obj.working_prec_mvp);
                                     boxK.potential = mchop(boxK.potential + mchop(mchop(boxKI.V{k}') * mchop(mchop(boxKI.U{k}') * mchop(boxKI.charges))));
 
                                     if(obj.N<=obj.N_max)
+                                        set_prec(obj.working_prec);
                                         obj.Hmat(boxK.chargeLocations, boxKI.chargeLocations) = mchop(boxKI.V{k}' * boxKI.U{k}');
                                     end
                                 end
@@ -1084,10 +1093,11 @@ classdef HmatTree < handle
                                     continue
                                 end
 
-                                set_prec(obj.working_prec);
+                                set_prec(obj.working_prec_mvp);
                                 boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.U{ki}) * mchop(mchop(boxK.V{ki}) * mchop(boxKI.charges))));
 
                                 if(obj.N<=obj.N_max)
+                                    set_prec(obj.working_prec);
                                     obj.Hmat(boxK.chargeLocations, boxKI.chargeLocations)  = mchop(boxK.U{ki} * boxK.V{ki});
                                 end
                             end
@@ -1119,12 +1129,13 @@ classdef HmatTree < handle
                                     continue
                                 end
 
-                                set_prec(obj.working_prec);
+                                set_prec(obj.working_prec_mvp);
                                 boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.dense_nbd_Matrix{nn}) * mchop(boxNN.charges)));
 
                                 obj.Dense_storage = obj.Dense_storage + numel(boxK.dense_nbd_Matrix{nn}) * obj.working_prec.bits;
 
                                 if(obj.N<=obj.N_max)
+                                    set_prec(obj.working_prec);
                                     obj.Hmat(boxK.chargeLocations, boxNN.chargeLocations) = mchop(boxK.dense_nbd_Matrix{nn});
                                 end
                             else
@@ -1132,10 +1143,11 @@ classdef HmatTree < handle
                                     continue
                                 end
 
-                                set_prec(obj.working_prec);
+                                set_prec(obj.working_prec_mvp);
                                 boxK.potential = mchop(boxK.potential + mchop(mchop(boxNN.dense_nbd_Matrix{k}') * mchop(boxNN.charges)));
 
                                 if(obj.N<=obj.N_max)
+                                    set_prec(obj.working_prec);
                                     obj.Hmat(boxK.chargeLocations, boxNN.chargeLocations) = mchop(boxNN.dense_nbd_Matrix{k}');
                                 end
                             end
@@ -1144,12 +1156,13 @@ classdef HmatTree < handle
                                 continue
                             end
 
-                            set_prec(obj.working_prec);
+                            set_prec(obj.working_prec_mvp);
                             boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.dense_nbd_Matrix{nn}) * mchop(boxNN.charges)));
 
                             obj.Dense_storage = obj.Dense_storage + numel(boxK.dense_nbd_Matrix{nn}) * obj.working_prec.bits;
 
                             if(obj.N<=obj.N_max)
+                                set_prec(obj.working_prec);
                                 obj.Hmat(boxK.chargeLocations, boxNN.chargeLocations) = mchop(boxK.dense_nbd_Matrix{nn});
                             end
                         end
@@ -1161,7 +1174,7 @@ classdef HmatTree < handle
                     continue
                 end
 
-                set_prec(obj.working_prec);
+                set_prec(obj.working_prec_mvp);
                 boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.dense_self_Matrix) * mchop(boxK.charges)));
 
                 obj.Dense_storage = obj.Dense_storage + numel(boxK.dense_self_Matrix) * obj.working_prec.bits;

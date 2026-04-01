@@ -4,9 +4,9 @@ clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 d_dim = 2;
 
-d_dimRootN = [80];
+d_dimRootN = [100];
 
-nParticlesInLeafAlong1D = 5;
+nParticlesInLeafAlong1D = 10;
 
 %LR_epsilon = [1e-2];
 LR_epsilon = [1e-12 1e-10 1e-8 1e-6 1e-4 1e-2 1e-1];
@@ -29,11 +29,12 @@ end
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-is_sym = false;  % The matrix is symmetric or not
+is_sym = true;  % The matrix is symmetric or not
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Working precision
-u = precision("d");  % Set working precision
+u = precision("d");      % Set working precision
+u_mvp = precision("d");  % Set working precision
 
 %% %%%%%%%%%%%%%% Mixed precision %%%%%%%%%%%%%%%%%%%%%%
 u1 = precision("d");
@@ -57,6 +58,6 @@ rng(1,'twister');
 
 for i = 1:numel(d_dimRootN)
     for j = 1:numel(LR_epsilon)
-        createHmat(d_dim, eta, d_dimRootN(i), hodlr_level, nParticlesInLeafAlong1D, LR_epsilon(j), kernel_choice, particle_location_choice, is_sym, isNBDcompressed, u_chain, u);
+        createHmat(d_dim, eta, d_dimRootN(i), hodlr_level, nParticlesInLeafAlong1D, LR_epsilon(j), kernel_choice, particle_location_choice, is_sym, isNBDcompressed, u_chain, u, u_mvp);
     end
 end
