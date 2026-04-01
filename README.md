@@ -8,7 +8,7 @@ Hybrid hierarchical matrices are based on a hybrid admissibility condition: the 
 3) LR_epsilon (ε) = Target accuracy in the low-rank compression.
 4) kernel_choice = Choice of your desired kernel function (see kernel_menu.md file and select the number from there).
 5) hodlr_level = This decides the switching level $\ell$ (where the admissibility conditions will be switched) in our hybrid admissibility condition. For example, if hodlr_level = 1, then switching level $\ell = L-1$.
-6) eta = The parameter used in the standard admissibility condition. A different choice of eta will generate a different $\mathcal{H}$-matrix.
+6) eta = The parameter used in the standard admissibility condition. A different choice of eta will generate a different $\mathcal{H}$-matrix. 
 
 
 ## Please follow these simple steps to run the code.
