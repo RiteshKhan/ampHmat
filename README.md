@@ -58,7 +58,7 @@ particle_location_choice = "uniform";
 ```
 
 
-If everything is fine, you will get the following output.
+If everything is fine, you will get the following **output**.
 ```
 ~~~~~~~*************** AMP HMAT ****************~~~~~~~
 Number of particles: 6400
