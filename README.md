@@ -115,7 +115,7 @@ The following figures illustrate adaptive mixed precision hybrid hierarchical ma
 We can see that almost all the blocks can be stored in a precision lower than the working precision. Notably, this does not come at the expense of accuracy.
 
 ## Acknowledgement 
-This work is supported by the European Union (ERC, inEXASCALE, 101075632) and the Charles University Research Centre program No. UNCE/24/SCI/005. 
+This work is supported by the European Union (ERC, inEXASCALE, 101075632) and the Charles University Research Centre program No. UNCE/24/SCI/005. We would like to thank Xinye Chen for many helpful suggestions.
 
 ## References
 [1] C. Erin, X. Chen and X. Liu, Mixed precision HODLR matrices, SIAM J. Sci. Comput., (2024), pp. A1408-A1435, https://doi.org/10.1137/24M1683925.
