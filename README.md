@@ -1,6 +1,6 @@
 # Adaptive mixed precision hybrid hierarchical matrices
 
-Hybrid hierarchical matrices are based on a *hybrid* admissibility condition: the standard admissibility condition is used at the coarser level of the hierarchy, and the weak admissibility condition is used at the finer level of the hierarchy.
+Hierarchical matrices are multilevel block low-rank representations of dense matrices that arise from BEM and kernel methods. Hybrid hierarchical matrices are based on a *hybrid* admissibility condition: the standard admissibility condition is used at the coarser level of the hierarchy, and the weak admissibility condition is used at the finer level of the hierarchy.
 
 
 ## Please follow these simple steps to run the code.
