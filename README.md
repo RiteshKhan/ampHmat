@@ -1,7 +1,9 @@
 # Adaptive mixed precision hybrid hierarchical matrices
 
-Hierarchical matrices [2] are multilevel block low-rank representations of dense matrices that arise from BEM and kernel methods. Hybrid hierarchical matrices are based on a *hybrid* admissibility condition: the standard admissibility condition is used at the coarser level of the hierarchy, and the weak admissibility condition is used at the finer level of the hierarchy.
+## Introduction
+Hierarchical matrices [3] are multilevel block low-rank representations of dense matrices that arise from BEM and kernel methods. We present a novel hybrid admissibility condition in [1]. Hybrid hierarchical matrices are based on a *hybrid* admissibility condition: the standard admissibility condition is used at the coarser level of the hierarchy, and the weak admissibility condition is used at the finer level of the hierarchy.
 
+A related work on HODLR matrices can be found in [2].
 
 ## Please follow these simple steps to run the code.
 Step 1.
@@ -118,8 +120,8 @@ We can see that almost all the blocks can be stored in a precision lower than th
 This work is supported by the European Union (ERC, inEXASCALE, 101075632) and the Charles University Research Centre program No. UNCE/24/SCI/005. We would like to thank Xinye Chen for many helpful suggestions.
 
 ## References
-[1] E. Carson, X. Chen and X. Liu, Mixed precision HODLR matrices, SIAM J. Sci. Comput., (2024), pp. A1408-A1435, https://doi.org/10.1137/24M1683925.
+[2] E. Carson, X. Chen and X. Liu, Mixed precision HODLR matrices, SIAM J. Sci. Comput., (2024), pp. A1408-A1435, https://doi.org/10.1137/24M1683925.
 
-[2] W. Hackbusch, Hierarchical Matrices: Algorithms and Analysis, vol. 49, Springer, 12 2015.
+[3] W. Hackbusch, Hierarchical Matrices: Algorithms and Analysis, vol. 49, Springer, 12 2015.
 
-[3] N. J. Higham and S. Pranesh, Simulating low precision floating-point arithmetic, SIAM J. Sci. Comput., 41 (2019), pp. C585–C602, https://doi.org/10.1137/19M1251308.
+[4] N. J. Higham and S. Pranesh, Simulating low precision floating-point arithmetic, SIAM J. Sci. Comput., 41 (2019), pp. C585–C602, https://doi.org/10.1137/19M1251308.
