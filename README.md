@@ -30,6 +30,7 @@ main_file.m
 8) u = Working precision for mixed precision H-matrix representation storage. 
 9) u_mvp = Working precision for matrix-vector product with the resulting H-matrix representation.
 10) The code can be run in mixed precision as well as uniform precision settings (more info can be found in the main_file.m).
+11) There is a parameter N_max in createHmat.m responsible for building the entire matrix to check the global error caused by the adaptive mixed precision hybrid hierarchical representation. So make sure that you have enough memory to build the matrix.
 
 
 ## One example
