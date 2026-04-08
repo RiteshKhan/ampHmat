@@ -2,7 +2,7 @@ function createHmat(d_dim, eta, d_dimRootN, hodlr_level, nParticlesInLeafAlong1D
     N = d_dimRootN^d_dim;
 
     nLevels = ceil(log(d_dimRootN/nParticlesInLeafAlong1D) / log(2));
-    L = 1; 
+    L = 1;  % Half box size
     charges = rand(N,1);   % Column vector
 
     % Set a value, it will build the entire matrix of size N_max X N_max. Be cautious about the matrix size and RAM!!!
