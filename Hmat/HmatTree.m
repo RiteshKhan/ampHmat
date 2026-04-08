@@ -960,6 +960,7 @@ classdef HmatTree < handle
                                 boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.U{ki}) * mchop(mchop(boxK.V{ki}) * mchop(boxKI.charges))));
 
                                 if(obj.N<=obj.N_max)
+                                    set_prec(obj.working_prec);
                                     obj.Hmat(boxK.chargeLocations, boxKI.chargeLocations)  = mchop(boxK.U{ki} * boxK.V{ki});
                                 end
                             else
@@ -1180,6 +1181,7 @@ classdef HmatTree < handle
                 obj.Dense_storage = obj.Dense_storage + numel(boxK.dense_self_Matrix) * obj.working_prec.bits;
 
                 if(obj.N<=obj.N_max)
+                    set_prec(obj.working_prec);
                     obj.Hmat(boxK.chargeLocations, boxK.chargeLocations) = mchop(boxK.dense_self_Matrix);
                 end
             end
