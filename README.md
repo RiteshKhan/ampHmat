@@ -19,7 +19,7 @@ Step 3.
 main_file.m
 ```
 
-## Description of the parameters in the main_file.m
+## Description of the parameters in the [main_file.m](Hmat/main_file.m)
 1) d_dim = The dimension of the space. The balanced 2^d_dim-tree will be generated accordingly. For example, if d_dim=3, the resulting tree will be an oct-tree.
 1) nParticlesInLeafAlong1D = The maximum number of particles along 1D at the leaf level. The maximum number of particles at the leaf level N_max = nParticlesInLeafAlong1D^d_dim (this decides the depth of the tree $L$).  
 3) LR_epsilon (ε) = Target accuracy in the low-rank compression.
