@@ -5,7 +5,7 @@ function createHmat(d_dim, eta, d_dimRootN, hodlr_level, nParticlesInLeafAlong1D
     L = 1; 
     charges = rand(N,1);   % Column vector
 
-    % Set a value, it will build entire matrix of size N_max X N_max.
+    % Set a value, it will build the entire matrix of size N_max X N_max. Be cautious about the matrix size and RAM!!!
     N_max = 10000;
     
     H = HmatTree(d_dim, eta, N, N_max, nLevels, hodlr_level, nParticlesInLeafAlong1D, L, LR_epsilon, kernel_choice, is_sym, isNBDcompressed, u_chain, u, u_mvp);
