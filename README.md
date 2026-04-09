@@ -3,7 +3,7 @@
 ## Introduction
 Hierarchical matrices [3] are multilevel block low-rank representations of dense matrices that arise from BEM and kernel methods. Hierarchical matrices are constructed based on various admissibility conditions, such as standard admissibility condition and weak admissibility condition.  We present hybrid hierarchical matrices in [1]. Hybrid hierarchical matrices are based on a *hybrid* admissibility condition: the standard admissibility condition is used at the coarser level of the hierarchy, and the weak admissibility condition is used at the finer level of the hierarchy. We show that the admissible blocks can be represented in low precision and present an adaptive mixed precision representation of hybrid hierarchical matrices. The low-precision arithmetics are simulated using the `chop` function of [4].
 
-A related work on HODLR matrices can be found in [2].
+A related work on HODLR matrices (a special class of H-matrices) can be found in [2].
 
 ## Please follow these simple steps to run the code.
 Step 1.
