@@ -121,6 +121,8 @@ We can see that almost all the blocks can be stored in a precision lower than th
 This work is supported by the European Union (ERC, inEXASCALE, 101075632) and the Charles University Research Centre program No. UNCE/24/SCI/005. We would like to thank Xinye Chen for many helpful suggestions.
 
 ## References
+[1] R. Khan, E. Carson, Hybrid hierarchical matrices with adaptive mixed precision storage, https://arxiv.org/pdf/2604.09147.
+
 [2] E. Carson, X. Chen and X. Liu, Mixed precision HODLR matrices, SIAM J. Sci. Comput., (2024), pp. A1408-A1435, https://doi.org/10.1137/24M1683925.
 
 [3] W. Hackbusch, Hierarchical Matrices: Algorithms and Analysis, vol. 49, Springer, 12 2015.
