@@ -27,7 +27,7 @@ main_file.m
 5) eta = The parameter used in the standard admissibility condition. A different choice of eta will generate a different $\mathcal{H}$-matrix.
 6) is_sym = The kernel matrix is symmetric or not (true/false).
 7) ell_values_array = This decides the switching level $\ell$ (where the admissibility conditions will be switched) in our hybrid admissibility condition.
-8) u = Working precision for mixed precision H-matrix representation storage. 
+8) u = Working precision for mixed precision H-matrix reconstruction. 
 9) u_mvp = Working precision for matrix-vector product with the resulting H-matrix representation.
 10) The code can be run in mixed precision as well as uniform precision settings (see the flag `useMixedPrecision`; more info can be found in the main_file.m).
 11) There is a parameter N_max in [createHmat.m](Hmat/createHmat.m) responsible for building the entire matrix to check the global error caused by the adaptive mixed precision hybrid hierarchical representation. So make sure that you have enough memory to build the matrix.
