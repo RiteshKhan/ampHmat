@@ -135,7 +135,7 @@ d_dimRootN = 80, LR_epsilon = 1.00e-01, isMixedPrec = 1, ell = 3, isNBDcompresse
 
 
 ## Visualization
-The following figures illustrate adaptive mixed precision hybrid hierarchical matrix representations $(L=4)$ with the above parameters.
+The following figures illustrate adaptive mixed precision hybrid hierarchical matrix representations $(L=4)$ with the above parameters (ε = 0.001 and ε = 0.1).
 
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
