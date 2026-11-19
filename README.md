@@ -98,7 +98,7 @@ The following figures illustrate adaptive mixed precision hybrid hierarchical ma
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
   <em>
-    <em>Figure 1: Colors indicate the precision used in each block for target accuracy $\epsilon = 10^{-3}$</em>.
+    <em>Figure 1: Colors indicate the precision used in each block for target accuracy ε = 0.001 </em>.
   </em>
 </p>
 
@@ -107,7 +107,7 @@ The following figures illustrate adaptive mixed precision hybrid hierarchical ma
 <p align="center">
   <img src="Hmat/Images/hmat2.jpg" alt="H-matrix example" width="1000"><br>
   <em>
-    <em>Figure 2: Colors indicate the precision used in each block for target accuracy $\epsilon = 10^{-1}$</em>.
+    <em>Figure 2: Colors indicate the precision used in each block for target accuracy ε =0.1 </em>.
   </em>
 </p>
 
