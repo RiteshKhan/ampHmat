@@ -88,7 +88,7 @@ else
     u5 = precision("d");
 end
 
-u_chain = prec_chain(u1,u2,u3,u4,u5);
+
 ```
 
 
