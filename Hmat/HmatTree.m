@@ -41,8 +41,17 @@ classdef HmatTree < handle
         working_prec_mvp   % Working precision for MVP
 
         LR_storage
-        Dense_storage
-        storage
+        LR_storage_WP
+
+        Dense_storage_MP
+        Dense_storage_WP
+
+        Dense_storage_diag
+
+        storage_MP
+        storage_WP
+
+        storage_others
 
         normOrder
         sq_matrixNorm  % frob(A) * frob(A)
@@ -160,7 +169,7 @@ classdef HmatTree < handle
             diff = p1 - p2;
             d = sqrt(sum(diff.^2));
         end
-        
+
 
         % --- Admissibility condition (Euclidian norm) ---
         function tf = admCondition(obj, j, k, l)
@@ -523,6 +532,7 @@ classdef HmatTree < handle
                     boxK.S = cell(numel(I_list),1);
                     boxK.V = cell(numel(I_list),1);
                     boxK.sq_norm_block_mat = cell(numel(I_list),1);
+                    boxK.block_precIndex = zeros(numel(I_list),1);
                     for idx = 1:numel(I_list)
                         ki = I_list(idx);
                         boxKI = obj.tree{j}{ki};
@@ -617,6 +627,7 @@ classdef HmatTree < handle
                     boxK.S = cell(numel(obj.pow2d),1);
                     boxK.V = cell(numel(obj.pow2d),1);
                     boxK.sq_norm_block_mat = cell(numel(obj.pow2d),1);
+                    boxK.block_precIndex = zeros(numel(obj.pow2d),1);
                     pN = ceil(k / obj.pow2d);
                     for c = 1:obj.pow2d
                         ki = obj.tree{j-1}{pN}.childrenNumbers(c);
@@ -676,8 +687,8 @@ classdef HmatTree < handle
                                 if(isempty(boxK.dense_nbd_Matrix{nn}))
                                     continue
                                 end
-                                norm_dense_nbd_Matrix = norm(boxK.dense_nbd_Matrix{nn}, "fro");
-                                obj.sq_matrixNorm = obj.sq_matrixNorm + 2 * (norm_dense_nbd_Matrix * norm_dense_nbd_Matrix);
+                                boxK.sq_norm_block_mat{nn} = norm(boxK.dense_nbd_Matrix{nn}, "fro") * norm(boxK.dense_nbd_Matrix{nn}, "fro");
+                                obj.sq_matrixNorm = obj.sq_matrixNorm + 2 * boxK.sq_norm_block_mat{nn};
                                 boxNN.isVisited(k) = true;
                             end
                         else
@@ -685,8 +696,8 @@ classdef HmatTree < handle
                             if(isempty(boxK.dense_nbd_Matrix{nn}))
                                 continue
                             end
-                            norm_dense_nbd_Matrix = norm(boxK.dense_nbd_Matrix{nn}, "fro");
-                            obj.sq_matrixNorm = obj.sq_matrixNorm + (norm_dense_nbd_Matrix * norm_dense_nbd_Matrix);
+                            boxK.sq_norm_block_mat{nn} = norm(boxK.dense_nbd_Matrix{nn}, "fro") * norm(boxK.dense_nbd_Matrix{nn}, "fro");
+                            obj.sq_matrixNorm = obj.sq_matrixNorm + boxK.sq_norm_block_mat{nn};
                         end
                     end
                 end
@@ -704,6 +715,7 @@ classdef HmatTree < handle
 
         function ap_Hmat_Block_Matrices(obj)
             obj.LR_storage = 0;
+            obj.LR_storage_WP = 0;
             for j = 2:(obj.nLevels-obj.hodlr_levels+1)
                 nBoxes = obj.nBoxesPerLevel(j);
                 for k = 1:nBoxes
@@ -718,8 +730,10 @@ classdef HmatTree < handle
                                 if isempty(boxK.U{ki}) || boxK.sq_norm_block_mat{ki} == 0
                                     continue
                                 end
+
+                                r = size(boxK.U{ki},2);
                                 xi = sqrt(boxK.sq_norm_block_mat{ki} / obj.sq_matrixNorm); % error
-                                update_u = obj.LR_epsilon / (2^((obj.d_dim*(j-1))/2) * xi);
+                                update_u = (sqrt(1 + (sqrt(r) * obj.LR_epsilon)/(2^((obj.d_dim*(j-1))/2) * xi)) - 1)/sqrt(r);
 
                                 find_u = find(obj.unitRoundOff<=update_u);
                                 if ~isempty(find_u)
@@ -727,6 +741,11 @@ classdef HmatTree < handle
                                 else
                                     error('Not available precision');
                                 end
+
+                                % ===============================================================
+                                % Store precision used for this block
+                                % ===============================================================
+                                boxK.block_precIndex(ki) = precIndex;
 
                                 set_prec(obj.prec_settings{precIndex});
                                 [boxK.U{ki}, boxK.V{ki}] = chop_mat(boxK.U{ki}, boxK.S{ki}, boxK.V{ki});  % Chop simulation
@@ -737,25 +756,30 @@ classdef HmatTree < handle
                                     bits = 64;
                                 end
 
-                                [m, r] = size(boxK.U{ki});
-                                [r, n] = size(boxK.V{ki});
+                                obj.LR_storage = obj.LR_storage + (numel(boxK.U{ki}) + numel(boxK.V{ki})) * bits;
 
-                                obj.LR_storage = obj.LR_storage + (m + n) * r * bits;
+                                obj.LR_storage_WP = obj.LR_storage_WP + (numel(boxK.U{ki}) + numel(boxK.V{ki})) * obj.working_prec.bits;
                             end
                         else
                             if isempty(boxK.U{ki}) || boxK.sq_norm_block_mat{ki} == 0
                                 continue
                             end
+
+                            r = size(boxK.U{ki},2);
                             xi = sqrt(boxK.sq_norm_block_mat{ki} / obj.sq_matrixNorm); % error
-                            update_u = obj.LR_epsilon / (2^((obj.d_dim*(j-1))/2) * xi);
+                            update_u = (sqrt(1 + (sqrt(r) * obj.LR_epsilon)/(2^((obj.d_dim*(j-1))/2) * xi)) - 1)/sqrt(r);
 
                             find_u = find(obj.unitRoundOff<=update_u);
-
                             if ~isempty(find_u)
                                 precIndex = obj.sortIdx(find_u(end));
                             else
                                 error('Not available precision');
                             end
+
+                            % ===============================================================
+                            % Store precision used for this block
+                            % ===============================================================
+                            boxK.block_precIndex(ki) = precIndex;
 
                             set_prec(obj.prec_settings{precIndex});
                             [boxK.U{ki}, boxK.V{ki}] = chop_mat(boxK.U{ki}, boxK.S{ki}, boxK.V{ki});  % Chop simulation
@@ -766,12 +790,10 @@ classdef HmatTree < handle
                                 bits = 64;
                             end
 
-                            [m, r] = size(boxK.U{ki});
-                            [r, n] = size(boxK.V{ki});
 
-                            obj.LR_storage = obj.LR_storage + (m + n) * r * bits;
+                            obj.LR_storage = obj.LR_storage + (numel(boxK.U{ki}) + numel(boxK.V{ki})) * bits;
 
-                            obj.Hmat_storage(j) = obj.Hmat_storage(j) + (m + n) * r * bits;
+                            obj.LR_storage_WP = obj.LR_storage_WP + (numel(boxK.U{ki}) + numel(boxK.V{ki})) * obj.working_prec.bits;
                         end
                     end
                 end
@@ -793,8 +815,11 @@ classdef HmatTree < handle
                             if isempty(boxK.U{nn}) || boxK.sq_norm_block_mat{nn} == 0
                                 continue
                             end
+
+                            r = size(boxK.U{nn},2);
+
                             xi = sqrt(boxK.sq_norm_block_mat{nn} / obj.sq_matrixNorm); % error
-                            update_u = obj.LR_epsilon / (2^((obj.d_dim*(j-1))/2) * xi);
+                            update_u = (sqrt(1 + (sqrt(r) * obj.LR_epsilon)/(2^((obj.d_dim*(j-1))/2) * xi)) - 1)/sqrt(r);
 
                             find_u = find(obj.unitRoundOff<=update_u);
                             if ~isempty(find_u)
@@ -802,6 +827,11 @@ classdef HmatTree < handle
                             else
                                 error('Not available precision');
                             end
+
+                            % ===============================================================
+                            % Store precision used for this block
+                            % ===============================================================
+                            boxK.block_precIndex(nn) = precIndex;
 
                             set_prec(obj.prec_settings{precIndex});
                             [boxK.U{nn}, boxK.V{nn}] = chop_mat(boxK.U{nn}, boxK.S{nn}, boxK.V{nn});  % Chop simulation
@@ -812,17 +842,19 @@ classdef HmatTree < handle
                                 bits = 64;
                             end
 
-                            [m, r] = size(boxK.U{nn});
-                            [r, n] = size(boxK.V{nn});
+                            obj.LR_storage = obj.LR_storage + (numel(boxK.U{nn})+ numel(boxK.V{nn})) * bits;
 
-                            obj.LR_storage = obj.LR_storage + (m + n) * r * bits;
+                            obj.LR_storage_WP = obj.LR_storage_WP + (numel(boxK.U{nn})+ numel(boxK.V{nn})) * obj.working_prec.bits;
                         end
                     else
                         if isempty(boxK.U{nn}) || boxK.sq_norm_block_mat{nn} == 0
                             continue
                         end
+
+                        r = size(boxK.U{nn},2);
+
                         xi = sqrt(boxK.sq_norm_block_mat{nn} / obj.sq_matrixNorm); % error
-                        update_u = obj.LR_epsilon / (2^((obj.d_dim*(j-1))/2) * xi);
+                        update_u = (sqrt(1 + (sqrt(r) * obj.LR_epsilon)/(2^((obj.d_dim*(j-1))/2) * xi)) - 1)/sqrt(r);
 
                         find_u = find(obj.unitRoundOff<=update_u);
                         if ~isempty(find_u)
@@ -830,6 +862,11 @@ classdef HmatTree < handle
                         else
                             error('Not available precision');
                         end
+
+                        % ===============================================================
+                        % Store precision used for this block
+                        % ===============================================================
+                        boxK.block_precIndex(nn) = precIndex;
 
                         set_prec(obj.prec_settings{precIndex});
                         [boxK.U{nn}, boxK.V{nn}] = chop_mat(boxK.U{nn}, boxK.S{nn}, boxK.V{nn});  % Chop simulation
@@ -840,12 +877,9 @@ classdef HmatTree < handle
                             bits = 64;
                         end
 
-                        [m, r] = size(boxK.U{nn});
-                        [r, n] = size(boxK.V{nn});
+                        obj.LR_storage = obj.LR_storage + (numel(boxK.U{nn})+ numel(boxK.V{nn})) * bits;
 
-                        obj.LR_storage = obj.LR_storage + (m + n) * r * bits;
-
-                        obj.nadm_storage = obj.nadm_storage + (m + n) * r * bits;
+                        obj.LR_storage_WP = obj.LR_storage_WP + (numel(boxK.U{nn})+ numel(boxK.V{nn})) * obj.working_prec.bits;
                     end
                 end
             end
@@ -870,8 +904,11 @@ classdef HmatTree < handle
                                     if isempty(boxK.U{ki}) || boxK.sq_norm_block_mat{ki} == 0
                                         continue
                                     end
+
+                                    r = size(boxK.U{ki},2);
+
                                     xi = sqrt(boxK.sq_norm_block_mat{ki} / obj.sq_matrixNorm); % error
-                                    update_u = obj.LR_epsilon / (2^((obj.d_dim*(j-1))/2) * xi);
+                                    update_u = (sqrt(1 + (sqrt(r) * obj.LR_epsilon)/(2^((obj.d_dim*(j-1))/2) * xi)) - 1)/sqrt(r);
 
                                     find_u = find(obj.unitRoundOff<=update_u);
                                     if ~isempty(find_u)
@@ -879,6 +916,11 @@ classdef HmatTree < handle
                                     else
                                         error('Not available precision');
                                     end
+
+                                    % ===============================================================
+                                    % Store precision used for this block
+                                    % ===============================================================
+                                    boxK.block_precIndex(ki) = precIndex;
 
                                     set_prec(obj.prec_settings{precIndex});
                                     [boxK.U{ki}, boxK.V{ki}] = chop_mat(boxK.U{ki}, boxK.S{ki}, boxK.V{ki});  % Chop simulation
@@ -889,17 +931,19 @@ classdef HmatTree < handle
                                         bits = 64;
                                     end
 
-                                    [m, r] = size(boxK.U{ki});
-                                    [r, n] = size(boxK.V{ki});
+                                    obj.LR_storage = obj.LR_storage + (numel(boxK.U{ki}) + numel(boxK.V{ki})) * bits;
 
-                                    obj.LR_storage = obj.LR_storage + (m + n) * r * bits;
+                                    obj.LR_storage_WP = obj.LR_storage_WP + (numel(boxK.U{ki}) + numel(boxK.V{ki})) * obj.working_prec.bits;
                                 end
                             else
                                 if isempty(boxK.U{ki}) || boxK.sq_norm_block_mat{ki} == 0
                                     continue
                                 end
+
+                                r = size(boxK.U{ki},2);
+
                                 xi = sqrt(boxK.sq_norm_block_mat{ki} / obj.sq_matrixNorm); % error
-                                update_u = obj.LR_epsilon / (2^((obj.d_dim*(j-1))/2) * xi);
+                                update_u = (sqrt(1 + (sqrt(r) * obj.LR_epsilon)/(2^((obj.d_dim*(j-1))/2) * xi)) - 1)/sqrt(r);
 
                                 find_u = find(obj.unitRoundOff<=update_u);
                                 if ~isempty(find_u)
@@ -907,6 +951,11 @@ classdef HmatTree < handle
                                 else
                                     error('Not available precision');
                                 end
+
+                                % ===============================================================
+                                % Store precision used for this block
+                                % ===============================================================
+                                boxK.block_precIndex(ki) = precIndex;
 
                                 set_prec(obj.prec_settings{precIndex});
                                 [boxK.U{ki}, boxK.V{ki}] = chop_mat(boxK.U{ki}, boxK.S{ki}, boxK.V{ki});  % Chop simulation
@@ -917,17 +966,91 @@ classdef HmatTree < handle
                                     bits = 64;
                                 end
 
-                                [m, r] = size(boxK.U{ki});
-                                [r, n] = size(boxK.V{ki});
+                                obj.LR_storage = obj.LR_storage + (numel(boxK.U{ki}) + numel(boxK.V{ki})) * bits;
 
-                                obj.LR_storage = obj.LR_storage + (m + n) * r * bits;
-
-                                obj.HODLR_strorage(j) = obj.HODLR_strorage(j) + (m + n) * r * bits;
+                                obj.LR_storage_WP = obj.LR_storage_WP + (numel(boxK.U{ki}) + numel(boxK.V{ki})) * obj.working_prec.bits;
                             end
                         end
                     end
                 end
                 fprintf("LR strorage at level %d is %d\n", j, obj.HODLR_strorage(j));
+            end
+        end
+
+
+        function ap_Dense_NBD_Matrices(obj)
+            obj.Dense_storage_MP = 0;
+            obj.Dense_storage_WP = 0;
+
+            j = obj.nLevels + 1;
+            nBoxes = obj.nBoxesPerLevel(j);
+            for k = 1:nBoxes
+                boxK = obj.tree{j}{k};
+                if(obj.hodlr_levels == 0 && ~obj.isNBDcompressed)
+                    % Neighbors
+                    for idx = 1:numel(boxK.neighborNumbers)
+                        nn = boxK.neighborNumbers(idx);
+                        if(obj.is_sym)
+                            if(~boxK.isVisited(nn))
+                                if isempty(boxK.dense_nbd_Matrix{nn}) || boxK.sq_norm_block_mat{nn} == 0
+                                    continue
+                                end
+
+                                xi = sqrt(boxK.sq_norm_block_mat{nn} / obj.sq_matrixNorm); % error
+                                update_u = obj.LR_epsilon / (2^((obj.d_dim*(j-1))/2) * xi);
+
+                                find_u = find(obj.unitRoundOff<=update_u);
+                                if ~isempty(find_u)
+                                    precIndex = obj.sortIdx(find_u(end));
+                                else
+                                    error('Not available precision');
+                                end
+
+                                set_prec(obj.prec_settings{precIndex});
+                                boxK.dense_nbd_Matrix{nn} = chop_mat(boxK.dense_nbd_Matrix{nn});  % Chop simulation
+
+                                if size(obj.prec_settings, 2) ~= 0
+                                    bits = obj.prec_settings{precIndex}.bits;
+                                else
+                                    bits = 64;
+                                end
+
+                                obj.Dense_storage_MP = obj.Dense_storage_MP + numel(boxK.dense_nbd_Matrix{nn}) * bits;
+
+                                obj.Dense_storage_WP = obj.Dense_storage_WP + numel(boxK.dense_nbd_Matrix{nn}) * obj.working_prec.bits;
+                            end
+                        else
+                            if isempty(boxK.dense_nbd_Matrix{nn}) || boxK.sq_norm_block_mat{nn} == 0
+                                continue
+                            end
+
+                            xi = sqrt(boxK.sq_norm_block_mat{nn} / obj.sq_matrixNorm); % error
+                            update_u = obj.LR_epsilon / (2^((obj.d_dim*(j-1))/2) * xi);
+
+                            find_u = find(obj.unitRoundOff<=update_u);
+                            if ~isempty(find_u)
+                                precIndex = obj.sortIdx(find_u(end));
+                            else
+                                error('Not available precision');
+                            end
+
+                            set_prec(obj.prec_settings{precIndex});
+                            boxK.dense_nbd_Matrix{nn} = chop_mat(boxK.dense_nbd_Matrix{nn});  % Chop simulation
+
+                            if size(obj.prec_settings, 2) ~= 0
+                                bits = obj.prec_settings{precIndex}.bits;
+                            else
+                                bits = 64;
+                            end
+
+                            obj.Dense_storage_MP = obj.Dense_storage_MP + numel(boxK.dense_nbd_Matrix{nn}) * bits;
+
+                            obj.Dense_storage_WP = obj.Dense_storage_WP + numel(boxK.dense_nbd_Matrix{nn}) * obj.working_prec.bits;
+                        end
+                    end
+                end
+
+                % Self/diagonal will be stored in working precision
             end
         end
 
@@ -1110,11 +1233,10 @@ classdef HmatTree < handle
 
 
         function dense_MVP_leaf(obj)
+            obj.Dense_storage_diag = 0;
             % Dense MVP at leaf level
             j = obj.nLevels + 1;
             nBoxes = obj.nBoxesPerLevel(j);
-
-            obj.Dense_storage = 0;
 
             for k = 1:nBoxes
                 boxK = obj.tree{j}{k};
@@ -1132,8 +1254,6 @@ classdef HmatTree < handle
 
                                 set_prec(obj.working_prec_mvp);
                                 boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.dense_nbd_Matrix{nn}) * mchop(boxNN.charges)));
-
-                                obj.Dense_storage = obj.Dense_storage + numel(boxK.dense_nbd_Matrix{nn}) * obj.working_prec.bits;
 
                                 if(obj.N<=obj.N_max)
                                     set_prec(obj.working_prec);
@@ -1160,8 +1280,6 @@ classdef HmatTree < handle
                             set_prec(obj.working_prec_mvp);
                             boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.dense_nbd_Matrix{nn}) * mchop(boxNN.charges)));
 
-                            obj.Dense_storage = obj.Dense_storage + numel(boxK.dense_nbd_Matrix{nn}) * obj.working_prec.bits;
-
                             if(obj.N<=obj.N_max)
                                 set_prec(obj.working_prec);
                                 obj.Hmat(boxK.chargeLocations, boxNN.chargeLocations) = mchop(boxK.dense_nbd_Matrix{nn});
@@ -1178,7 +1296,7 @@ classdef HmatTree < handle
                 set_prec(obj.working_prec_mvp);
                 boxK.potential = mchop(boxK.potential + mchop(mchop(boxK.dense_self_Matrix) * mchop(boxK.charges)));
 
-                obj.Dense_storage = obj.Dense_storage + numel(boxK.dense_self_Matrix) * obj.working_prec.bits;
+                obj.Dense_storage_diag = obj.Dense_storage_diag + numel(boxK.dense_self_Matrix) * obj.working_prec.bits;
 
                 if(obj.N<=obj.N_max)
                     set_prec(obj.working_prec);
@@ -1238,17 +1356,50 @@ classdef HmatTree < handle
         end
 
 
+        %% Calculate metadtata and tree storage
+        function calculate_secondary_storage(obj)
+            obj.storage_others = 0;
+            % Loop levels 2..end (leaf level included)
+            for j = 2:(obj.nLevels+1)
+                for k = 1:obj.nBoxesPerLevel(j)
+                    node = obj.tree{j}{k};
+                    obj.storage_others = obj.storage_others...
+                    + numel(node.boxNumber)       * 8 ...
+                    + numel(node.parentNumber)    * 8 ...
+                    + numel(node.childrenNumbers) * 8 ...
+                    + numel(node.neighborNumbers) * 8 ...
+                    + numel(node.interactionList) * 8 ...
+                    + numel(node.chargeLocations) * 8;
+                end
+            end
+        end
+
+
         function get_storage(obj)
-            fprintf("Low-rank storage\n");
+            fprintf("Low-rank format storage (MP format)\n");
             disp(obj.LR_storage);
 
-            fprintf("Dense matrix storage\n")
-            disp(obj.Dense_storage);
+            fprintf("Low-rank format storage (WP format)\n");
+            disp(obj.LR_storage_WP);
 
-            obj.storage = obj.LR_storage + obj.Dense_storage;
+            fprintf("Dense matrix format storage (MP format)\n")
+            disp(obj.Dense_storage_MP);
 
-            fprintf("Total storage\n")
-            disp(obj.storage);
+            fprintf("Dense matrix format storage (WP format)\n")
+            disp(obj.Dense_storage_WP);
+
+            fprintf("Dense matrix format storage (diagonal)\n")
+            disp(obj.Dense_storage_diag);
+
+            obj.storage_MP = obj.LR_storage + obj.Dense_storage_MP + obj.Dense_storage_diag;
+
+            obj.storage_WP = obj.LR_storage_WP + obj.Dense_storage_WP + obj.Dense_storage_diag;
+
+            fprintf("Total storage (MP format, only payload)\n")
+            disp(obj.storage_MP);
+
+            fprintf("Total storage (WP format, only payload)\n")
+            disp(obj.storage_WP);
         end
 
 

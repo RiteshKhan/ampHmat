@@ -1,0 +1,124 @@
+
+
+
+============================================================
+			 		 Start
+============================================================
+
+************* ############################################################ *************
+d_dimRootN = 80, LR_epsilon = 1.00e-03
+************* ############################################################ *************
+
+~~~~~~~*************** AMP HMAT ****************~~~~~~~
+Number of particles: 6400
+  
+Parameters:
+ell value-> 3	  LR Tol.-> 1.000000e-03	  Dim-> 2	  Min particle at leaf-> 64	  Kernel choice-> 2	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 7.071068e-01
+Particle location-> uniform
+=============================
+Relative error in MVP:   1.7033e-04
+
+=============================
+Level of the tree: 4
+=============================
+Low-rank Storage (GB): 2.831200e-03
+=============================
+Dense matrices Storage (GB): 1.280000e-03
+=============================
+Total Storage (only payload) (GB): 4.111200e-03
+=============================
+Total Storage (total) (GB): 4.140628e-03
+=============================
+
+============================= Storage Gain ====================================
+Storage gain (only payload) in MP (over its uniform precision version): 3.065966
+Storage gain (total) in MP (over its uniform precision version): 3.051283
+===============================================================================
+Relative error in Matrix construction:
+   5.5638e-04
+
+
+=============================
+Relative backward error in MVP:
+   4.3199e-05
+
+
+d_dimRootN = 80, LR_epsilon = 1.00e-03, isMixedPrec = 1, ell = 3, isNBDcompressed = 1, Storage (mixed precision, total) = 4.140628e-03 GB, Storage (uniform precision, total) = 1.263423e-02 GB
+
+*************** == END OF RESULT == ****************
+
+
+
+===================================================================================
+				 OPTIMAL CONFIGURATION (Mixed precision)
+===================================================================================
+Optimal ell    ---------------->                                        = 3
+HODLR levels   ---------------->                                        = 1
+NBD compressed                                                          = 1
+Low-rank storage                                                        = 2.831200e-03 GB
+Dense storage                                                           = 1.280000e-03 GB
+Total storage (only payload)                                            = 4.140628e-03 GB
+Corresponding hybrid format Uniform-WP storage                          = 1.263423e-02 GB
+Storage gain (only payload) in hybrid format in MP (over its uniform prec counterpart) = 3.051283
+Storage gain (only payload) in hybrid format in WP (over uniform prec Hs-matrix)       = NaN
+Storage gain (only payload) in hybrid format in MP (over uniform prec Hs-matrix)       = NaN
+===================================================================================
+
+************* ############################################################ *************
+d_dimRootN = 80, LR_epsilon = 1.00e-01
+************* ############################################################ *************
+
+~~~~~~~*************** AMP HMAT ****************~~~~~~~
+Number of particles: 6400
+  
+Parameters:
+ell value-> 3	  LR Tol.-> 1.000000e-01	  Dim-> 2	  Min particle at leaf-> 64	  Kernel choice-> 2	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 7.071068e-01
+Particle location-> uniform
+=============================
+Relative error in MVP:    0.0258
+
+=============================
+Level of the tree: 4
+=============================
+Low-rank Storage (GB): 5.724000e-04
+=============================
+Dense matrices Storage (GB): 1.280000e-03
+=============================
+Total Storage (only payload) (GB): 1.852400e-03
+=============================
+Total Storage (total) (GB): 1.881828e-03
+=============================
+
+============================= Storage Gain ====================================
+Storage gain (only payload) in MP (over its uniform precision version): 3.093932
+Storage gain (total) in MP (over its uniform precision version): 3.061187
+===============================================================================
+Relative error in Matrix construction:
+    0.0740
+
+
+=============================
+Relative backward error in MVP:
+    0.0065
+
+
+d_dimRootN = 80, LR_epsilon = 1.00e-01, isMixedPrec = 1, ell = 3, isNBDcompressed = 1, Storage (mixed precision, total) = 1.881828e-03 GB, Storage (uniform precision, total) = 5.760628e-03 GB
+
+*************** == END OF RESULT == ****************
+
+
+
+===================================================================================
+				 OPTIMAL CONFIGURATION (Mixed precision)
+===================================================================================
+Optimal ell    ---------------->                                        = 3
+HODLR levels   ---------------->                                        = 1
+NBD compressed                                                          = 1
+Low-rank storage                                                        = 5.724000e-04 GB
+Dense storage                                                           = 1.280000e-03 GB
+Total storage (only payload)                                            = 1.881828e-03 GB
+Corresponding hybrid format Uniform-WP storage                          = 5.760628e-03 GB
+Storage gain (only payload) in hybrid format in MP (over its uniform prec counterpart) = 3.061187
+Storage gain (only payload) in hybrid format in WP (over uniform prec Hs-matrix)       = NaN
+Storage gain (only payload) in hybrid format in MP (over uniform prec Hs-matrix)       = NaN
+===================================================================================

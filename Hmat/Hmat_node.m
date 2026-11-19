@@ -25,6 +25,7 @@ classdef Hmat_node < handle
         U 
         S
         V  
+        block_precIndex
         % Dense matrices
         dense_nbd_Matrix
         dense_self_Matrix
