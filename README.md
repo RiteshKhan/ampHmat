@@ -38,26 +38,57 @@ Set the input parameters as follows in the [main_file.m](Hmat/main_file.m)
 
 ```
 d_dim = 2;
-d_dimRootN = [80];
+d_dimRootN = 80;
 nParticlesInLeafAlong1D = 8;
-LR_epsilon = [1e-2];
+LR_epsilon = [1e-1];
 kernel_choice = 2;
-hodlr_level = 1;
-eta = sqrt(d_dim)/2.0;  
+eta = sqrt(d_dim)/2.0;
 particle_location_choice = "uniform";
 is_sym = true;
 
-%% Working precision
-u = precision("d");      % Set working precision
-u_mvp = precision("d");  % Set working precision
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tree levels
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% %%%%%%%%%%%%%% Mixed precision %%%%%%%%%%%%%%%%%%%%%%
-u1 = precision("d");
-u2 = precision("s");
-u3 = precision("h");
-u4 = precision("b");
-u5 = precision("q43");
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+nLevel = ceil(log(d_dimRootN/nParticlesInLeafAlong1D) / log(2));
+
+
+% ell = L+1 : standard H-matrix
+% ell = L   : hybrid
+% ...
+% ell = 1   : HODLR
+
+% ell_values = nLevel+1:-1:1;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ell_values_array = [nLevel-1];
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mixed precision
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+useMixedPrecision = true;
+
+u     = precision("d");
+u_mvp = precision("d");
+
+if useMixedPrecision
+    u1 = precision("d");
+    u2 = precision("s");
+    u3 = precision("h");
+    u4 = precision("b");
+    u5 = precision("q52");
+else
+    u1 = precision("d");
+    u2 = precision("d");
+    u3 = precision("d");
+    u4 = precision("d");
+    u5 = precision("d");
+end
+
+
 ```
 
 
@@ -67,38 +98,49 @@ If everything is fine, you will get the following **output**.
 Number of particles: 6400
   
 Parameters:
-HODLR level-> 1	  LR Tol.-> 1.000000e-02	  Dim-> 2	  Min particle at leaf-> 64	  Kernel choice-> 2	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 7.071068e-01
+ell value-> 3	  LR Tol.-> 1.000000e-01	  Dim-> 2	  Min particle at leaf-> 64	  Kernel choice-> 2	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 7.071068e-01
 Particle location-> uniform
 =============================
-Relative error in MVP:    0.0040
+Relative error in MVP:    0.0256
 
 =============================
 Level of the tree: 4
 =============================
-Low-rank Storage: 1.630400e-03
+Low-rank Storage (GB): 5.724000e-04
 =============================
-Dense matrices Storage: 1.280000e-03
+Dense matrices Storage (GB): 1.280000e-03
 =============================
-Total Storage: 2.910400e-03
+Total Storage (only payload) (GB): 1.852400e-03
 =============================
-Compression ratio (with dense fp64): 1.125893e+02
+Total Storage (total) (GB): 1.881828e-03
 =============================
+
+============================= Storage Gain ====================================
+Storage gain (only payload) in MP (over its uniform precision version): 3.093932
+Storage gain (total) in MP (over its uniform precision version): 3.061187
+===============================================================================
 Relative error in Matrix construction:
-    0.0101
+    0.0740
+
+
 =============================
 Relative backward error in MVP:
-    0.0010
+    0.0065
+
+
+d_dimRootN = 80, LR_epsilon = 1.00e-01, isMixedPrec = 1, ell = 3, isNBDcompressed = 1, Storage (mixed precision, total) = 1.881828e-03 GB, Storage (uniform precision, total) = 5.760628e-03 GB
+
 *************** == END OF RESULT == ****************
 ```
 
 
 ## Visualization
-The following figures illustrate adaptive mixed precision hybrid hierarchical matrix representations $(L=4)$ with the above parameters.
+The following figures illustrate adaptive mixed precision hybrid hierarchical matrix representations $(L=4)$ with the above parameters (ε = 0.001 and ε = 0.1).
 
 <p align="center">
   <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
   <em>
-    <em>Figure 1: Colors indicate the precision used in each block for target accuracy ε = 10⁻⁴</em>.
+    <em>Figure 1: Colors indicate the precision used in each block for target accuracy ε = 0.001 </em>
   </em>
 </p>
 
@@ -107,7 +149,7 @@ The following figures illustrate adaptive mixed precision hybrid hierarchical ma
 <p align="center">
   <img src="Hmat/Images/hmat2.jpg" alt="H-matrix example" width="1000"><br>
   <em>
-    <em>Figure 2: Colors indicate the precision used in each block for target accuracy ε = 10⁻²</em>.
+    <em>Figure 2: Colors indicate the precision used in each block for target accuracy ε =0.1 </em>
   </em>
 </p>
 
