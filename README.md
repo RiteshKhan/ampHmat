@@ -96,7 +96,7 @@ Relative backward error in MVP:
 The following figures illustrate adaptive mixed precision hybrid hierarchical matrix representations $(L=4)$ with the above parameters.
 
 <p align="center">
-  <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
+  <img src="Hmat/Images/hmat0.jpg" alt="H-matrix example" width="1000"><br>
   <em>
     <em>Figure 1: Colors indicate the precision used in each block for target accuracy ε = 10⁻⁴</em>.
   </em>
@@ -105,7 +105,7 @@ The following figures illustrate adaptive mixed precision hybrid hierarchical ma
 <br>
 
 <p align="center">
-  <img src="Hmat/Images/hmat2.jpg" alt="H-matrix example" width="1000"><br>
+  <img src="Hmat/Images/hmat1.jpg" alt="H-matrix example" width="1000"><br>
   <em>
     <em>Figure 2: Colors indicate the precision used in each block for target accuracy ε = 10⁻²</em>.
   </em>
